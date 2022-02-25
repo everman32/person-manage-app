@@ -1,6 +1,7 @@
 package by.victory.entity;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,6 +26,7 @@ public class PersonEntity {
     @Column (name="surname", nullable=false)
     private String surname;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column (name="birthDate", nullable=false)
     private Date birthDate;
 

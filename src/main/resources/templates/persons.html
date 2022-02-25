@@ -7,10 +7,17 @@
 </head>
 <body>
 <div class="container-fluid text-center">
-    <div><h2>Manage persons</h2></div>
+    <div class="m-2">
+        <a class="h3" th:href="@{/persons/new}">Add new person</a>
+    </div>
+
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+
     <div>
-        <table>
-            <thead>
+        <table class="table table-bordered">
+            <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>name</th>
@@ -20,8 +27,28 @@
                 <th>passport number</th>
                 <th>email</th>
                 <th>city list</th>
+                <th>action</th>
             </tr>
             </thead>
+            <tbody>
+            <th:block th:each="person: ${personList}">
+                <tr>
+                    <td>[[${person.id}]]</td>
+                    <td>[[${person.name}]]</td>
+                    <td>[[${person.patronymic}]]</td>
+                    <td>[[${person.surname}]]</td>
+                    <td th:text="${#strings.substring(
+                        person.birthDate, 0, #strings.length(person.birthDate)-11)}"></td>
+                    <td>[[${person.passportNumber}]]</td>
+                    <td>[[${person.email}]]</td>
+                    <td>[[${person.cityList}]]</td>
+                    <td>
+                        <a class="h4 m-3" th:href="@{'/persons/update'+${person.id}}">update</a>
+                        <a class="h4" th:href="@{'/persons/delete'+${person.id}}">delete</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
         </table>
     </div>
 </div>

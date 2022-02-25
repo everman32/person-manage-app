@@ -15,4 +15,10 @@ public class PersonService {
     public List<PersonEntity> getAll(){
         return (List<PersonEntity>) repository.findAll();
     }
+
+    public void save (PersonEntity person){
+        repository.save(person);
+    }
+
+
 }
