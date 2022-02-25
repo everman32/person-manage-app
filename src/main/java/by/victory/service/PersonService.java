@@ -29,4 +29,12 @@ public class PersonService {
         }
         throw new PersonNotFoundException("Could not find any persons with id "+id);
     }
+
+    public void delete(Integer id) throws PersonNotFoundException {
+        Long count=repository.countById(id);
+        if (count==null ||count==0){
+            throw new PersonNotFoundException("Could not find any persons with id "+id);
+        }
+        repository.deleteById(id);
+    }
 }

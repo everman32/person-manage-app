@@ -52,10 +52,22 @@ public class PersonController {
 
             return "person_form";
         } catch (PersonNotFoundException e) {
-            redirectAddtibutes.addFlashAttribute("message",
-                    "The person has been saved successfully");
+            redirectAddtibutes.addFlashAttribute("message", e.getMessage());
 
             return "redirect:/persons";
         }
+    }
+
+    @GetMapping("persons/delete/{id}")
+    public String deletePerson(@PathVariable("id") Integer id,
+                                 RedirectAttributes redirectAddtibutes){
+        try {
+            service.delete(id);
+            redirectAddtibutes.addFlashAttribute("message",
+                    "The person with id "+id+" has been deleted");
+        } catch (PersonNotFoundException e) {
+            redirectAddtibutes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/persons";
     }
 }
