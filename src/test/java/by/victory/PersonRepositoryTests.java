@@ -19,19 +19,28 @@ import java.util.Optional;
 @AutoConfigureTestDatabase(replace =AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(false)
 public class PersonRepositoryTests {
+    private final PersonRepository repository;
+
     @Autowired
-    private PersonRepository repository;
+    public PersonRepositoryTests(PersonRepository repository){
+        this.repository=repository;
+    }
+
 
     @Test
-    public void testAddNew() throws ParseException {
+    public void testCreate() throws ParseException {
         PersonEntity person=new PersonEntity();
+
         person.setName("Stepan");
         person.setPatronymic("Gennadievich");
         person.setSurname("Frolov");
 
-        person.setBirthDate((new SimpleDateFormat("dd.MM.yyyy")).parse(
-                "12.03.1980"));
+        java.util.Date utilDate = new SimpleDateFormat("dd.MM.yyyy").parse("12.03.1980");
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        person.setBirthDate(sqlDate);
+
         person.setEmail("stepan.frolov@gmail.com");
+
         person.setCityList(new HashSet<>(
                 Arrays.asList("Mogilev", "Nesvig", "Brest", "Polotsk", "Gomel")));
 
@@ -43,17 +52,28 @@ public class PersonRepositoryTests {
     }
 
     @Test
-    public void tessListAll(){
-        Iterable<PersonEntity> persons = repository.findAll();
-        Assertions.assertThat(persons).hasSizeGreaterThan(0);
+    public void testGetAll(){
+        Iterable<PersonEntity> people = repository.findAll();
+        Assertions.assertThat(people).hasSizeGreaterThan(0);
 
-        persons.forEach(System.out::println);
+        people.forEach(System.out::println);
+    }
+
+    @Test
+    public void testGet(){
+        Integer personId=2;
+        Optional<PersonEntity> person=repository.findById(personId);
+
+        Assertions.assertThat(person).isPresent();
+        System.out.println(person.get());
     }
 
     @Test
     public void testUpdate(){
         Integer personId=1;
         Optional<PersonEntity> optionalPerson = repository.findById(personId);
+        Assertions.assertThat(optionalPerson).isPresent();
+
         PersonEntity person=optionalPerson.get();
 
         person.setName("Alex");
@@ -64,20 +84,11 @@ public class PersonRepositoryTests {
     }
 
     @Test
-    public void testGet(){
-        Integer personId=2;
-        Optional<PersonEntity> optionalPerson=repository.findById(personId);
-
-        Assertions.assertThat(optionalPerson).isPresent();
-        System.out.println(optionalPerson.get());
-    }
-
-    @Test
     public void testDelete(){
         Integer personId=2;
         repository.deleteById(personId);
 
-        Optional<PersonEntity> optionalPerson= repository.findById(personId);
-        Assertions.assertThat(optionalPerson).isNotPresent();
+        Optional<PersonEntity> person= repository.findById(personId);
+        Assertions.assertThat(person).isNotPresent();
     }
 }

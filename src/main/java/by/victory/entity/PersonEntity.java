@@ -1,16 +1,15 @@
 package by.victory.entity;
 
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @Entity
-@Table(name="persons")
+@Table(name="people")
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,11 +25,10 @@ public class PersonEntity {
     @Column (name="surname", nullable=false)
     private String surname;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @Column (name="birthDate", nullable=false)
+    @Column (name="birth_date", nullable=false)
     private Date birthDate;
 
-    @Column (name="passportNumber", nullable=false, unique = true)
+    @Column (name="passport_number", nullable=false, unique = true)
     private String passportNumber;
 
     @Column (name="email", unique = true)

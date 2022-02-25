@@ -6,65 +6,66 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
+
 <div class="container-fluid">
     <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
 
-    <form th:action="@{/persons/save}" method="post" th:object="${person}"
+    <form th:action="@{/person/save}" method="post" th:object="${person}"
     style="max-width: 600px; margin:0 auto;">
         <input type="hidden" th:field="*{id}">
         <div class="border border-secondary rounded p-3">
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">Name</label>
                 <div class="col-sm-8">
-                    <input type="text" th:field="*{name}" class="form-control" required minlength="2"
+                    <label for="name" class="col-sm-4 col-form-label">Name</label>
+                    <input id="name" type="text" th:field="*{name}" class="form-control" required minlength="2"
                     maxlength="30" pattern="[A-Za-zА-Яа-яЁё]+">
                 </div>
             </div>
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">Patronymic</label>
                 <div class="col-sm-8">
-                    <input type="text" th:field="*{patronymic}" class="form-control" required minlength="4"
+                    <label for="patronymic" class="col-sm-4 col-form-label">Patronymic</label>
+                    <input id="patronymic" type="text" th:field="*{patronymic}" class="form-control" required minlength="4"
                            maxlength="50" pattern="[A-Za-zА-Яа-яЁё]+">
                 </div>
             </div>
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">Surname</label>
                 <div class="col-sm-8">
-                    <input type="text" th:field="*{surname}" class="form-control" required minlength="2"
+                    <label for="surname" class="col-sm-4 col-form-label">Surname</label>
+                    <input id="surname" type="text" th:field="*{surname}" class="form-control" required minlength="2"
                            maxlength="45" pattern="[A-Za-zА-Яа-яЁё]+">
                 </div>
             </div>
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">Birth date</label>
                 <div class="col-sm-8">
-                    <input type="date" th:field="*{birthDate}" class="form-control">
+                    <label for="birthDate" class="col-sm-4 col-form-label">Birth date</label>
+                    <input id="birthDate" type="date" th:field="*{birthDate}" class="form-control">
                 </div>
             </div>
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">Passport number</label>
                 <div class="col-sm-8">
-                    <input type="text" th:field="*{passportNumber}" class="form-control" required minlength="4"
+                    <label for="passportNumber" class="col-sm-4 col-form-label">Passport number</label>
+                    <input id="passportNumber" type="text" th:field="*{passportNumber}" class="form-control" required minlength="4"
                            maxlength="25" pattern="[A-Za-zА-Яа-яЁё0-9]+">
                 </div>
             </div>
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">Email</label>
                 <div class="col-sm-8">
-                    <input type="email" th:field="*{email}" class="form-control" required minlength="8"
+                    <label for="email" class="col-sm-4 col-form-label">Email</label>
+                    <input id="email" type="email" th:field="*{email}" class="form-control" minlength="8"
                            maxlength="45">
                 </div>
             </div>
 
             <div class="form-group-row">
-                <label class="col-sm-4 col-form-label">City list</label>
                 <div class="col-sm-8">
-                    <input type="text" th:field="*{cityList}" class="form-control" required minlength="3"
+                    <label for="cityList" class="col-sm-4 col-form-label">City list</label>
+                    <input id="cityList" type="text" th:field="*{cityList}" class="form-control" required minlength="3"
                            pattern="[A-Za-zА-Яа-яЁё, ]+">
                 </div>
             </div>
@@ -80,7 +81,7 @@
 </div>
 <script type="text/javascript">
     function cancelForm(){
-        window.location="[[@{/persons}]]"
+        window.location="[[@{/read_person}]]"
     }
 </script>
 </body>

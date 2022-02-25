@@ -15,59 +15,66 @@ import java.util.List;
 
 @Controller
 public class PersonController {
-    @Autowired
-    private PersonService service;
+    private final PersonService service;
 
-    @GetMapping("/persons")
-    public String showPersonList(Model model){
+    @Autowired
+    public PersonController(PersonService service){
+        this.service=service;
+    }
+
+
+    @GetMapping("/person")
+    public String showReadPage(Model model){
         List<PersonEntity> personList =service.getAll();
         model.addAttribute("personList", personList);
 
-        return "persons";
+        return "read_person";
     }
 
-    @GetMapping("/persons/new")
-    public String showNewForm(Model model){
+    @GetMapping("/person/create")
+    public String showCreatePage(Model model){
         model.addAttribute("person",new PersonEntity());
-        model.addAttribute("pageTitle", "Add new person");
-        return "person_form";
+        model.addAttribute("pageTitle", "Create person");
+
+        return "create_person";
     }
 
-    @PostMapping("/persons/save")
-    public String savePerson(PersonEntity person, RedirectAttributes redirectAddtibutes){
-        service.save(person);
-        redirectAddtibutes.addFlashAttribute("message",
-                "The person has been saved successfully");
-
-        return "redirect:/persons";
-    }
-
-    @GetMapping("persons/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model,
-                                 RedirectAttributes redirectAddtibutes){
+    @GetMapping("/person/update/{id}")
+    public String showUpdatePage(@PathVariable("id") Integer id, Model model,
+                                 RedirectAttributes redirectAttributes){
         try {
             PersonEntity person=service.get(id);
             model.addAttribute("person", person);
             model.addAttribute("pageTitle", "Update person (id: "+id+" )");
 
-            return "person_form";
+            return "create_person";
         } catch (PersonNotFoundException e) {
-            redirectAddtibutes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
 
-            return "redirect:/persons";
+            return "redirect:/person";
         }
     }
 
-    @GetMapping("persons/delete/{id}")
-    public String deletePerson(@PathVariable("id") Integer id,
-                                 RedirectAttributes redirectAddtibutes){
+    @PostMapping("/person/save")
+    public String save(PersonEntity person, RedirectAttributes redirectAttributes){
+        service.save(person);
+        redirectAttributes.addFlashAttribute("message",
+                "The person has been saved successfully");
+
+        return "redirect:/person";
+    }
+
+    @GetMapping("/person/delete/{id}")
+    public String delete(@PathVariable("id") Integer id,
+                         RedirectAttributes redirectAttributes){
         try {
             service.delete(id);
-            redirectAddtibutes.addFlashAttribute("message",
+            redirectAttributes.addFlashAttribute("message",
                     "The person with id "+id+" has been deleted");
         } catch (PersonNotFoundException e) {
-            redirectAddtibutes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
-        return "redirect:/persons";
+
+        return "redirect:/person";
     }
 }

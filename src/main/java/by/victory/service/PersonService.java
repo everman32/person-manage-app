@@ -11,8 +11,13 @@ import java.util.Optional;
 
 @Service
 public class PersonService {
+    private final PersonRepository repository;
+
     @Autowired
-    private PersonRepository repository;
+    public PersonService(PersonRepository repository){
+        this.repository=repository;
+    }
+
 
     public List<PersonEntity> getAll(){
         return (List<PersonEntity>) repository.findAll();
@@ -23,17 +28,17 @@ public class PersonService {
     }
 
     public PersonEntity get(Integer id) throws PersonNotFoundException {
-        Optional<PersonEntity> result=repository.findById(id);
-        if (result.isPresent()){
-            return result.get();
+        Optional<PersonEntity> person=repository.findById(id);
+        if (person.isPresent()){
+            return person.get();
         }
-        throw new PersonNotFoundException("Could not find any persons with id "+id);
+        throw new PersonNotFoundException("Could not find any person with id "+id);
     }
 
     public void delete(Integer id) throws PersonNotFoundException {
         Long count=repository.countById(id);
         if (count==null ||count==0){
-            throw new PersonNotFoundException("Could not find any persons with id "+id);
+            throw new PersonNotFoundException("Could not find any person with id "+id);
         }
         repository.deleteById(id);
     }
