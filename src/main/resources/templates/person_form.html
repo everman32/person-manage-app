@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add new person</title>
+    <title>[[${pageTitle}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div class="container-fluid">
-    <div class="text-center"><h2>Add new person</h2></div>
+    <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
 
     <form th:action="@{/persons/save}" method="post" th:object="${person}"
     style="max-width: 600px; margin:0 auto;">
+        <input type="hidden" th:field="*{id}">
         <div class="border border-secondary rounded p-3">
 
             <div class="form-group-row">
